@@ -1,0 +1,138 @@
+{% load static %}
+{% load martortags %}
+
+{% block css %}
+    <link href="{% static 'plugins/css/ace.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+    <link href="{% static 'martor/css/martor.bootstrap.min.css' %}" type="text/css" media="all" rel="stylesheet" />
+{% endblock %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{% static "main.css" %}">
+
+    {% if title %}
+        <title>Джангонавт - {{ title }}</title>
+    {% else %}
+        <title>Джангонавт</title>
+    {% endif %}
+</head>
+<body>
+<header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+
+            <a class="navbar-brand mr-4" href="{% url 'blog-home' %}">Джангонавт</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggle">
+
+                <div class="navbar-nav mr-auto">
+
+                    <a class="nav-item nav-link" href="{% url 'blog-home' %}">Проекты <span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link" href="{% url 'blog-home' %}">Резюме <span class="sr-only">(current)</span></a>
+
+                </div>
+                <!-- Navbar Right Side -->
+
+                {% if user.is_authenticated %}
+                    <div class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ user.full_name }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="#">Настройки</a>
+                                <a class="dropdown-item" href="#">Справка</a>
+                            </div>
+                        </li>
+                    </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </nav>
+</header>
+<main role="main" class="container">
+
+    <div class="row">
+        <div class="col-md-8">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% block content %}{% endblock %}
+            {% block extrahead %}{% endblock extrahead %}
+            {% block extra_js %}{% endblock extra_js %}
+        </div>
+        <div class="col-md-4">
+         <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            <div class="content-section">
+                <h3>Тэги</h3>
+                <p class='text-muted'>You can put any information here you'd like.
+                <ul class="list-group">
+                    {% for tag in tags %}
+                        <a class="btn btn-outline-primary  btn-sm" href="/?tag={{ tag.pk }}"
+                           style="margin: 2px" role="button">{{ tag.pk }}</a>
+                    {% endfor %}
+                </ul>
+                </p>
+
+            </div>
+            <div class="content-section">
+                <h3>Тэги</h3>
+                <p class='text-muted'>You can put any information here you'd like.
+                <ul class="list-group">
+                    {% for tag in tags %}
+                        <li class="list-group-item list-group-item-light"
+                            style="margin: 1px">{{ tag.pk }}</li>
+                    {% endfor %}
+                </ul>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+<!-- Footer -->
+<footer class="page-footer font-small blue">
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2021 Юрий Бородин
+    </div>
+    <!-- Copyright -->
+</footer>
+{% block js %}
+    <script type="text/javascript" src="{% static 'plugins/js/highlight.min.js' %}"></script>
+    <script>
+        $('.martor-preview pre').each(function(i, block){
+            hljs.highlightBlock(block);
+        });
+    </script>
+{% endblock %}
+<!-- Footer -->
+</html>

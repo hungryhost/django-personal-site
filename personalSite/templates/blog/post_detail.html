@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load martortags %}
+
+{% block content %}
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ post.author.account_images.image.url }}">
+    <div class="media-body">
+      <div class="article-metadata">
+        <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+      </div>
+      <h2 class="article-title">{{ post.title }}</h2>
+      <p class="article-content">{{ post.content|safe_markdown }}</p>
+        <small class="text-muted">Просмотров: {{ post.views}}</small>
+    </div>
+  </article>
+{% endblock content %}
